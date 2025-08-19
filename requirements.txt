@@ -7,3 +7,4 @@ uvicorn==0.35.0
 
 channels==4.1.0
 channels-redis==4.2.0
+whitenoise == 6.8.2
