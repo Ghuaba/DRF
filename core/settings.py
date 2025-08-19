@@ -47,6 +47,7 @@ PROJECTS_APPS = [
 #Aplicaciones de TERCEROS
 THIRD_PARTY_APPS = [
     'rest_framework',
+    'channels',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECTS_APPS + THIRD_PARTY_APPS
@@ -81,6 +82,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
+# ASGI application for Channels
+ASGI_APPLICATION = 'core.asgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -134,10 +137,53 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-
+# REST Framework settings
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES":[
         "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
 }
+
+# Channels settings
+#WebSockets + Redis
+#Usa Redis para gestionar mensajes entre WebSockets
+CHANNELS_LAYERS = {
+    "default": {
+        #Redis backend para manejar los canales de comunicación de WebSocket en Django Channels
+        "BACKEND" : "channels_redis.core.RedisChannelLayer",
+        #Configuración nombre del servicio Redis dentro de Docker, junto a su puerto
+        "CONFIG": {
+            "hosts": [("django_redis", 6379) ]
+        }
+    }
+}
+
+
+"""
+CLIENT_CLASS = Define el tipo de cliente de Redis que Django usa como cache
+"django_redis.client.DefaultClient"	Usa el cliente por defecto provisto por django-redis
+"""
+# Caching settings
+#Usa Redis como sistema de cache para acelerar respuestas
+#Configurar la cache de Django para usar tambien Redis- 
+CACHES = {
+    "default": {
+        #Usando Redis como backend de cache
+        "BACKEND": "django_redis.cache.RedisCache",
+        #usamos reddis: usando con TLS, configuracion con nombre de docker y puerto por defecto
+        #"LOCATION": "rediss://django_redis:6379",
+
+        #Redis normal sin TLS
+        "LOCATION": "redis://django_redis:6379",
+
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+# Channels allowed origins 
+#Permite quienes se conecten por WebSocket
+CHANNELS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
