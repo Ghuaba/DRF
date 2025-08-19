@@ -79,10 +79,15 @@ ASGI_APPLICATION = 'core.asgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+#Conexion a la base de datos PostgreSQL, con los datos de la creacion del contenedor con la db
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django_db', #NOmbre de la database dentro del contendor
+        'USER': 'django',
+        'PASSWORD': 'postgres',
+        'HOST': 'postgresql',  # Container name of the service in docker-compose
+        'PORT': 5432  # Default port PostgreSQL 
     }
 }
 
