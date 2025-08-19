@@ -1,21 +1,27 @@
 import os
-
+import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+#Confiuracion de variables de entorno
+#Usa la libreria django-environ para leer el archivo .env
+env = environ.Env()
+environ.Env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
+#Aplicamos ENV
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--1n6s37#@dpf-)c*gjc^0xj@eiqhl6jp$vx&@g91r&-n4l4+q$'
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+#Aplicamos ENV
+#Host que permiten conectarse a la aplicacion
+ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 
 
 # Application definition
@@ -83,10 +89,10 @@ ASGI_APPLICATION = 'core.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_db', #NOmbre de la database dentro del contendor
-        'USER': 'django',
-        'PASSWORD': 'postgres',
-        'HOST': 'postgresql',  # Container name of the service in docker-compose
+        'NAME': 'env("DATABASE_NAME)', #NOmbre de la database dentro del contendor
+        'USER': 'env("DATABASE_USER)',
+        'PASSWORD': 'env("DATABASE_PASSWORD)',
+        'HOST': 'env("DATABASE_HOST)',  # Container name of the service in docker-compose
         'PORT': 5432  # Default port PostgreSQL 
     }
 }
@@ -154,7 +160,7 @@ CHANNELS_LAYERS = {
         "BACKEND" : "channels_redis.core.RedisChannelLayer",
         #Configuración nombre del servicio Redis dentro de Docker, junto a su puerto
         "CONFIG": {
-            "hosts": [("django_redis", 6379) ]
+            "hosts": [env("REDIS_URL")],  # URL del servicio Redis
         }
     }
 }
@@ -175,7 +181,7 @@ CACHES = {
         #"LOCATION": "rediss://django_redis:6379",
 
         #Redis normal sin TLS
-        "LOCATION": "redis://django_redis:6379",
+        "LOCATION": env("REDIS_URL"),
 
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
