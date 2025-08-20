@@ -5,18 +5,11 @@ class TestView(APIView):
     """
     A simple API view to handle tasks.
     """
-    
+    #Basic view to test boilerplate configuration
     def get(self, request, *args, **kwargs):
         """
         Handle GET requests.
         """
         #data = {"message": "This is a GET request"}
         #return Response(data)
-        return Response("hOLA POOL")
-
-    def post(self, request):
-        """
-        Handle POST requests.
-        """
-        data = {"message": "This is a POST request", "data": request.data}
-        return Response(data)
+        return Response("Boilerlate correctamente configurado")

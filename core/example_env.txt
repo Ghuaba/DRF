@@ -1,0 +1,24 @@
+# ================================
+# Django Project Environment File
+# ================================
+# This is an example of the environment variables required to start the project.
+# Rename this file to .env and fill in the values according to your local or production setup.
+
+# Django secret key (generate a new one for production)
+SECRET_KEY="django-insecure-...-your-secret-key-here"
+
+# Allowed hosts (separate multiple hosts with commas)
+ALLOWED_HOSTS=localhost,127.0.0.1 or *
+
+# ====================
+# Database Configuration
+# ====================
+DATABASE_NAME=your_database_name
+DATABASE_USER=your_database_user
+DATABASE_PASSWORD=your_database_password
+DATABASE_HOST=localhost  # or the IP address of your DB server
+
+# ====================
+# Redis Configuration
+# ====================
+REDIS_URL=redis://localhost:6379  # change 'localhost' if using Docker or a remote host

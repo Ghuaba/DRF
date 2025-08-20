@@ -89,10 +89,10 @@ ASGI_APPLICATION = 'core.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'env("DATABASE_NAME)', #NOmbre de la database dentro del contendor
-        'USER': 'env("DATABASE_USER)',
-        'PASSWORD': 'env("DATABASE_PASSWORD)',
-        'HOST': 'env("DATABASE_HOST)',  # Container name of the service in docker-compose
+        'NAME': env("DATABASE_NAME"), #NOmbre de la database dentro del contendor
+        'USER': env("DATABASE_USER"),
+        'PASSWORD': env("DATABASE_PASSWORD"),
+        'HOST': env("DATABASE_HOST"),  # Container name of the service in docker-compose
         'PORT': 5432  # Default port PostgreSQL 
     }
 }
